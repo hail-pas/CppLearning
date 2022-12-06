@@ -6,13 +6,14 @@
 #include <iostream>
 #include <map>
 #include <sstream>
+#include <stdlib.h>
 #include <string>
 #include <utility>
-
+#include <direct.h>
 
 #define DEBUG false
 
-const std::string dump_folder_name = "./data/login_register/";
+const std::string dump_folder_name = ".\\data\\login_register\\";
 
 const std::string dump_file_name = "user_info.db";
 
@@ -32,9 +33,12 @@ map<string, string> load_existed_users() {
   ifstream input_file;
   input_file.open(dump_folder_name + dump_file_name);
   if (!input_file.is_open()) {
-    cout << "Open file failed!";
+    // create folder and file
     tools::recursive_create_directory(dump_folder_name);
-    exit(1);
+    ofstream o_f;
+    o_f.open(dump_file_name + dump_file_name);
+    o_f.close();
+    return existed_users;
   }
   string username, password;
   string line, temp;
